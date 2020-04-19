@@ -1,4 +1,4 @@
-package com.cvmendes.cursospring.model;
+package com.cvmendes.cursospring.domain;
 
 import java.io.Serializable;
 
