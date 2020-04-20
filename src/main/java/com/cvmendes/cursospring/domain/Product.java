@@ -8,10 +8,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
+
+
 @Entity
-public class Category implements Serializable{
+public class Product implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
@@ -19,15 +23,22 @@ public class Category implements Serializable{
 	private Integer id;
 	
 	private String name;
+	private Double price;
 	
-	@ManyToMany(mappedBy="categoryList")
-	private List<Product> productList = new ArrayList<>();
+	@ManyToMany
+	@JoinTable(name = "PRODUCT_CATEGORY", 
+			   joinColumns = @JoinColumn(name = "product_id"), 
+			   inverseJoinColumns = @JoinColumn(name = "category_id")
+	)
+	private List<Category> categoryList = new ArrayList<>();
 	
-	public Category() {}
+	public Product() {}
 
-	public Category(Integer id, String name) {
+	public Product(Integer id, String name, Double price) {
+		super();
 		this.id = id;
 		this.name = name;
+		this.price = price;
 	}
 
 	public Integer getId() {
@@ -45,13 +56,21 @@ public class Category implements Serializable{
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	public List<Product> getProductList() {
-		return productList;
+
+	public Double getPrice() {
+		return price;
 	}
 
-	public void setProductList(List<Product> productList) {
-		this.productList = productList;
+	public void setPrice(Double price) {
+		this.price = price;
+	}
+
+	public List<Category> getCategoryList() {
+		return categoryList;
+	}
+
+	public void setCategoryList(List<Category> categoryList) {
+		this.categoryList = categoryList;
 	}
 
 	@Override
@@ -70,7 +89,7 @@ public class Category implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Category other = (Category) obj;
+		Product other = (Product) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
