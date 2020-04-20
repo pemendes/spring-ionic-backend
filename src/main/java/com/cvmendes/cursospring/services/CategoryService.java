@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.cvmendes.cursospring.domain.Category;
 import com.cvmendes.cursospring.repositories.CategoryRepository;
+import com.cvmendes.cursospring.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class CategoryService {
@@ -15,7 +16,8 @@ public class CategoryService {
 	private CategoryRepository repo;
 	
 	public Category find(Integer id) {
-		 Optional<Category> obj = repo.findById(id);
-		return obj.orElse(null);
+		Optional<Category> obj = repo.findById(id);
+		return obj.orElseThrow(() -> new ObjectNotFoundException(
+		 "Objet non trouvé! Id: " + id + ", Type: " + Category.class.getName())); 
 	} 
 }
