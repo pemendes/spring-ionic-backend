@@ -56,9 +56,9 @@ public class SpringBackApplication implements CommandLineRunner {
 		cat1.getProductList().addAll(Arrays.asList(p1,p2,p3));
 		cat2.getProductList().addAll(Arrays.asList(p2));
 		
-		p1.getCategoryList().add(cat1);
+		p1.getCategoryList().addAll(Arrays.asList(cat1));
 		p2.getCategoryList().addAll(Arrays.asList(cat1, cat2));
-		p3.getCategoryList().add(cat1);
+		p3.getCategoryList().addAll(Arrays.asList(cat1));
 		
 		categoryRepository.saveAll(Arrays.asList(cat1, cat2));
 		productRepository.saveAll(Arrays.asList(p1, p2, p3));
