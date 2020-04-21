@@ -9,12 +9,17 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import com.cvmendes.cursospring.domain.Address;
 import com.cvmendes.cursospring.domain.Category;
 import com.cvmendes.cursospring.domain.City;
+import com.cvmendes.cursospring.domain.Client;
 import com.cvmendes.cursospring.domain.Product;
 import com.cvmendes.cursospring.domain.State;
+import com.cvmendes.cursospring.domain.enums.TypeClient;
+import com.cvmendes.cursospring.repositories.AddressRepository;
 import com.cvmendes.cursospring.repositories.CategoryRepository;
 import com.cvmendes.cursospring.repositories.CityRepository;
+import com.cvmendes.cursospring.repositories.ClientRepository;
 import com.cvmendes.cursospring.repositories.ProductRepository;
 import com.cvmendes.cursospring.repositories.StateRepository;
 
@@ -29,6 +34,10 @@ public class SpringBackApplication implements CommandLineRunner {
 	private CityRepository cityRepository;
 	@Autowired
 	private StateRepository stateRepository;
+	@Autowired
+	private ClientRepository clientRepository;
+	@Autowired
+	private AddressRepository addressRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(SpringBackApplication.class, args);
@@ -66,5 +75,17 @@ public class SpringBackApplication implements CommandLineRunner {
 		
 		stateRepository.saveAll(Arrays.asList(st1, st2));
 		cityRepository.saveAll(Arrays.asList(c1, c2, c3));
+		
+		Client cli1 = new Client(null, "Maria Silva", "maria@gmail.com", "36378912377", TypeClient.PHYSICALPERSON);
+
+		cli1.getPhones().addAll(Arrays.asList("27363323", "93838393"));
+
+		Address a1 = new Address(null, "Rua Flores", "300", "Apto 303", "Jardim", "38220834", cli1, c1);
+		Address a2 = new Address(null, "Avenida Matos", "105", "Sala 800", "Centro", "38777012", cli1, c2);
+
+		cli1.getAddressList().addAll(Arrays.asList(a1, a2));
+
+		clientRepository.saveAll(Arrays.asList(cli1));
+		addressRepository.saveAll(Arrays.asList(a1, a2));
 	}
 }
