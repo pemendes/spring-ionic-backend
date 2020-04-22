@@ -12,42 +12,41 @@ import javax.persistence.ManyToOne;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class Address implements Serializable {
+public class Endereco implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
-	
-	private String street;
-	private String number;
-	private String complement;
+	private String logradouro;
+	private String numero;
+	private String complemento;
 	private String bairro;
 	private String cep;
 
 	@JsonIgnore
 	@ManyToOne
-	@JoinColumn(name="client_id")
-	private Client client;
+	@JoinColumn(name="cliente_id")
+	private Cliente cliente;
 
 	@ManyToOne
-	@JoinColumn(name="city_id")
-	private City city;
+	@JoinColumn(name="cidade_id")
+	private Cidade cidade;
 
-	public Address() {
+	public Endereco() {
 	}
 
-	public Address(Integer id, String street, String number, String complement, String bairro, String cep, Client client,
-			City city) {
+	public Endereco(Integer id, String logradouro, String numero, String complemento, String bairro, String cep,
+			Cliente cliente, Cidade cidade) {
 		super();
 		this.id = id;
-		this.street = street;
-		this.number = number;
-		this.complement = complement;
+		this.logradouro = logradouro;
+		this.numero = numero;
+		this.complemento = complemento;
 		this.bairro = bairro;
 		this.cep = cep;
-		this.client = client;
-		this.city = city;
+		this.cliente = cliente;
+		this.setCidade(cidade);
 	}
 
 	public Integer getId() {
@@ -58,28 +57,28 @@ public class Address implements Serializable {
 		this.id = id;
 	}
 
-	public String getStreet() {
-		return street;
+	public String getLogradouro() {
+		return logradouro;
 	}
 
-	public void setStreet(String street) {
-		this.street = street;
+	public void setLogradouro(String logradouro) {
+		this.logradouro = logradouro;
 	}
 
-	public String getNumber() {
-		return number;
+	public String getNumero() {
+		return numero;
 	}
 
-	public void setNumber(String number) {
-		this.number = number;
+	public void setNumero(String numero) {
+		this.numero = numero;
 	}
 
-	public String getComplement() {
-		return complement;
+	public String getComplemento() {
+		return complemento;
 	}
 
-	public void setComplement(String complement) {
-		this.complement = complement;
+	public void setComplemento(String complemento) {
+		this.complemento = complemento;
 	}
 
 	public String getBairro() {
@@ -98,20 +97,20 @@ public class Address implements Serializable {
 		this.cep = cep;
 	}
 
-	public Client getClient() {
-		return client;
+	public Cliente getCliente() {
+		return cliente;
 	}
 
-	public void setClient(Client client) {
-		this.client = client;
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 
-	public City getCity() {
-		return city;
+	public Cidade getCidade() {
+		return cidade;
 	}
 
-	public void setCity(City city) {
-		this.city = city;
+	public void setCidade(Cidade cidade) {
+		this.cidade = cidade;
 	}
 
 	@Override
@@ -130,7 +129,7 @@ public class Address implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Address other = (Address) obj;
+		Endereco other = (Endereco) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -138,6 +137,7 @@ public class Address implements Serializable {
 			return false;
 		return true;
 	}
-	
-	
+
+
+
 }

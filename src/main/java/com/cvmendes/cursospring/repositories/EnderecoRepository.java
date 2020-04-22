@@ -3,9 +3,9 @@ package com.cvmendes.cursospring.repositories;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.cvmendes.cursospring.domain.Category;
+import com.cvmendes.cursospring.domain.Endereco;
 
 @Repository
-public interface CategoryRepository extends JpaRepository<Category, Integer> {
+public interface EnderecoRepository extends JpaRepository<Endereco, Integer> {
 
 }

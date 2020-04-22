@@ -7,20 +7,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cvmendes.cursospring.domain.Client;
-import com.cvmendes.cursospring.services.ClientService;
+import com.cvmendes.cursospring.domain.Cliente;
+import com.cvmendes.cursospring.services.ClienteService;
 
 @RestController
-@RequestMapping(value="/clients")
-public class ClientResource {
-	
+@RequestMapping(value="/clientes")
+public class ClienteResource {
+
 	@Autowired
-	private ClientService service;
-	
+	private ClienteService service;
+
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	public ResponseEntity<?> find(@PathVariable Integer id) {
-		
-		Client client = service.find(id);
-		return ResponseEntity.ok().body(client);
+		Cliente obj = service.buscar(id);
+		return ResponseEntity.ok().body(obj);
 	}
 }

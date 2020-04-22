@@ -1,7 +1,6 @@
 package com.cvmendes.cursospring;
 
-
-
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,36 +8,47 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.cvmendes.cursospring.domain.Address;
-import com.cvmendes.cursospring.domain.Category;
-import com.cvmendes.cursospring.domain.City;
-import com.cvmendes.cursospring.domain.Client;
-import com.cvmendes.cursospring.domain.Product;
-import com.cvmendes.cursospring.domain.State;
-import com.cvmendes.cursospring.domain.enums.TypeClient;
-import com.cvmendes.cursospring.repositories.AddressRepository;
-import com.cvmendes.cursospring.repositories.CategoryRepository;
-import com.cvmendes.cursospring.repositories.CityRepository;
-import com.cvmendes.cursospring.repositories.ClientRepository;
-import com.cvmendes.cursospring.repositories.ProductRepository;
-import com.cvmendes.cursospring.repositories.StateRepository;
+import com.cvmendes.cursospring.domain.Categoria;
+import com.cvmendes.cursospring.domain.Cidade;
+import com.cvmendes.cursospring.domain.Cliente;
+import com.cvmendes.cursospring.domain.Endereco;
+import com.cvmendes.cursospring.domain.Estado;
+import com.cvmendes.cursospring.domain.Pagamento;
+import com.cvmendes.cursospring.domain.PagamentoComBoleto;
+import com.cvmendes.cursospring.domain.PagamentoComCartao;
+import com.cvmendes.cursospring.domain.Pedido;
+import com.cvmendes.cursospring.domain.Produto;
+import com.cvmendes.cursospring.domain.enums.EstadoPagamento;
+import com.cvmendes.cursospring.domain.enums.TipoCliente;
+import com.cvmendes.cursospring.repositories.CategoriaRepository;
+import com.cvmendes.cursospring.repositories.CidadeRepository;
+import com.cvmendes.cursospring.repositories.ClienteRepository;
+import com.cvmendes.cursospring.repositories.EnderecoRepository;
+import com.cvmendes.cursospring.repositories.EstadoRepository;
+import com.cvmendes.cursospring.repositories.PagamentoRepository;
+import com.cvmendes.cursospring.repositories.PedidoRepository;
+import com.cvmendes.cursospring.repositories.ProdutoRepository;
 
 @SpringBootApplication
 public class SpringBackApplication implements CommandLineRunner {
 	
 	@Autowired
-	private CategoryRepository categoryRepository;
+	private CategoriaRepository categoriaRepository;
 	@Autowired
-	private ProductRepository productRepository;
+	private ProdutoRepository produtoRepository;
 	@Autowired
-	private CityRepository cityRepository;
+	private EstadoRepository estadoRepository;
 	@Autowired
-	private StateRepository stateRepository;
+	private CidadeRepository cidadeRepository;
 	@Autowired
-	private ClientRepository clientRepository;
+	private ClienteRepository clienteRepository;
 	@Autowired
-	private AddressRepository addressRepository;
-
+	private EnderecoRepository enderecoRepository;
+	@Autowired
+	private PedidoRepository pedidoRepository;
+	@Autowired
+	private PagamentoRepository pagamentoRepository;
+	
 	public static void main(String[] args) {
 		SpringApplication.run(SpringBackApplication.class, args);
 	}
@@ -46,46 +56,62 @@ public class SpringBackApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		
-		Category cat1 = new Category(null, "Informatique");
-		Category cat2 = new Category(null, "Bureautique");
+		Categoria cat1 = new Categoria(null, "Informática");
+		Categoria cat2 = new Categoria(null, "Escritório");
 		
-		Product p1 = new Product(null, "Ordinateur", 350.00);
-		Product p2 = new Product(null, "Imprimante", 150.00);
-		Product p3 = new Product(null, "Souris", 30.00);
+		Produto p1 = new Produto(null, "Computador", 2000.00);
+		Produto p2 = new Produto(null, "Impressora", 800.00);
+		Produto p3 = new Produto(null, "Mouse", 80.00);
 		
-		cat1.getProductList().addAll(Arrays.asList(p1,p2,p3));
-		cat2.getProductList().addAll(Arrays.asList(p2));
+		cat1.getProdutos().addAll(Arrays.asList(p1, p2, p3));
+		cat2.getProdutos().addAll(Arrays.asList(p2));
 		
-		p1.getCategoryList().addAll(Arrays.asList(cat1));
-		p2.getCategoryList().addAll(Arrays.asList(cat1, cat2));
-		p3.getCategoryList().addAll(Arrays.asList(cat1));
-		
-		categoryRepository.saveAll(Arrays.asList(cat1, cat2));
-		productRepository.saveAll(Arrays.asList(p1, p2, p3));
-		
-		State st1 = new State(null, "Minas Gerais");
-		State st2 = new State(null, "São Paulo");
-		
-		City c1 = new City(null, "Uberlândia", st1);
-		City c2 = new City(null, "São Paulo", st2);
-		City c3 = new City(null, "Campinas", st2);
-		
-		st1.getCities().addAll(Arrays.asList(c1));
-		st2.getCities().addAll(Arrays.asList(c2, c3));
-		
-		stateRepository.saveAll(Arrays.asList(st1, st2));
-		cityRepository.saveAll(Arrays.asList(c1, c2, c3));
-		
-		Client cli1 = new Client(null, "Maria Silva", "maria@gmail.com", "36378912377", TypeClient.PHYSICALPERSON);
+		p1.getCategorias().addAll(Arrays.asList(cat1));
+		p2.getCategorias().addAll(Arrays.asList(cat1, cat2));
+		p3.getCategorias().addAll(Arrays.asList(cat1));
+				
+		categoriaRepository.saveAll(Arrays.asList(cat1, cat2));
+		produtoRepository.saveAll(Arrays.asList(p1, p2, p3));
 
-		cli1.getPhones().addAll(Arrays.asList("27363323", "93838393"));
+		Estado est1 = new Estado(null, "Minas Gerais");
+		Estado est2 = new Estado(null, "São Paulo");
+		
+		Cidade c1 = new Cidade(null, "Uberlândia", est1);
+		Cidade c2 = new Cidade(null, "São Paulo", est2);
+		Cidade c3 = new Cidade(null, "Campinas", est2);
+		
+		est1.getCidades().addAll(Arrays.asList(c1));
+		est2.getCidades().addAll(Arrays.asList(c2, c3));
 
-		Address a1 = new Address(null, "Rua Flores", "300", "Apto 303", "Jardim", "38220834", cli1, c1);
-		Address a2 = new Address(null, "Avenida Matos", "105", "Sala 800", "Centro", "38777012", cli1, c2);
-
-		cli1.getAddressList().addAll(Arrays.asList(a1, a2));
-
-		clientRepository.saveAll(Arrays.asList(cli1));
-		addressRepository.saveAll(Arrays.asList(a1, a2));
+		estadoRepository.saveAll(Arrays.asList(est1, est2));
+		cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));
+		
+		Cliente cli1 = new Cliente(null, "Maria Silva", "maria@gmail.com", "36378912377", TipoCliente.PESSOAFISICA);
+		
+		cli1.getTelefones().addAll(Arrays.asList("27363323", "93838393"));
+		
+		Endereco e1 = new Endereco(null, "Rua Flores", "300", "Apto 303", "Jardim", "38220834", cli1, c1);
+		Endereco e2 = new Endereco(null, "Avenida Matos", "105", "Sala 800", "Centro", "38777012", cli1, c2);
+		
+		cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
+		
+		clienteRepository.saveAll(Arrays.asList(cli1));
+		enderecoRepository.saveAll(Arrays.asList(e1, e2));
+	
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		
+		Pedido ped1 = new Pedido(null, sdf.parse("30/09/2017 10:32"), cli1, e1);
+		Pedido ped2 = new Pedido(null, sdf.parse("10/10/2017 19:35"), cli1, e2);
+		
+		Pagamento pagto1 = new PagamentoComCartao(null, EstadoPagamento.QUITADO, ped1, 6);
+		ped1.setPagamento(pagto1);
+		
+		Pagamento pagto2 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE, ped2, sdf.parse("20/10/2017 00:00"), null);
+		ped2.setPagamento(pagto2);
+		
+		cli1.getPedidos().addAll(Arrays.asList(ped1, ped2));
+				
+		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
+		pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2));
 	}
 }

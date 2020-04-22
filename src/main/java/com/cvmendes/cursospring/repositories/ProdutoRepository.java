@@ -3,9 +3,9 @@ package com.cvmendes.cursospring.repositories;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.cvmendes.cursospring.domain.State;
+import com.cvmendes.cursospring.domain.Produto;
 
 @Repository
-public interface StateRepository extends JpaRepository<State, Integer> {
+public interface ProdutoRepository extends JpaRepository<Produto, Integer> {
 
 }
